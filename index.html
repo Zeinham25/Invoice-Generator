@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#F4F6F7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F1517" media="(prefers-color-scheme: dark)">
+  <title>LPV Guest Documents</title>
+  <link rel="icon" href="assets/icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="assets/logo.jpg" alt="Lake Point Villa" class="brand-logo">
+      <div class="brand-text">
+        <span class="brand-name">Guest Documents</span>
+        <span class="brand-sub">Lake Point Villa</span>
+      </div>
+    </div>
+
+    <div class="segmented" role="tablist" aria-label="Document type">
+      <button role="tab" id="tab-confirmation" aria-selected="true" data-mode="confirmation">Confirmation</button>
+      <button role="tab" id="tab-invoice" aria-selected="false" data-mode="invoice">Invoice</button>
+    </div>
+
+    <div class="topbar-actions">
+      <button class="btn-plain" id="btn-recent" type="button">Recent</button>
+      <button class="btn-plain" id="btn-new" type="button">New</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <form id="doc-form" class="form" autocomplete="off" novalidate>
+
+      <!-- Booking -->
+      <section class="group" aria-labelledby="h-booking">
+        <h2 id="h-booking" class="group-title">Booking</h2>
+        <div class="card">
+          <div class="row">
+            <label for="resNo">Reservation No.</label>
+            <div class="field-with-btn">
+              <input id="resNo" name="resNo" inputmode="numeric" required>
+              <button type="button" class="icon-btn" id="regen-res" aria-label="Generate a new reservation number" title="Generate new number">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 10a6.5 6.5 0 1 1-1.9-4.6M16.5 3.5v3.5H13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <label for="bookingDate">Booking date</label>
+            <input id="bookingDate" name="bookingDate" type="date" required>
+          </div>
+          <div class="row two">
+            <div>
+              <label for="checkIn">Check-in</label>
+              <input id="checkIn" name="checkIn" type="date" required>
+            </div>
+            <div>
+              <label for="checkOut">Check-out</label>
+              <input id="checkOut" name="checkOut" type="date" required>
+            </div>
+          </div>
+          <p class="hint" id="nights-hint" aria-live="polite">Pick dates to count nights.</p>
+        </div>
+      </section>
+
+      <!-- Rooms -->
+      <section class="group" aria-labelledby="h-rooms">
+        <div class="group-head">
+          <h2 id="h-rooms" class="group-title">Rooms &amp; guests</h2>
+        </div>
+        <div id="rooms" class="stack"></div>
+        <button type="button" class="btn-add" id="add-room">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Add room
+        </button>
+        <datalist id="room-types">
+          <option value="Standard Room">
+          <option value="Standard Double Room">
+          <option value="Deluxe Double Room">
+          <option value="Single Room – Garden View">
+          <option value="Twin Room">
+          <option value="Family Room">
+          <option value="One-Bedroom Annex">
+        </datalist>
+      </section>
+
+      <!-- Invoice only -->
+      <section class="group invoice-only" aria-labelledby="h-invoice">
+        <h2 id="h-invoice" class="group-title">Invoice</h2>
+        <div class="card">
+          <div class="row">
+            <label for="invNo">Invoice No.</label>
+            <div class="field-with-btn">
+              <input id="invNo" name="invNo">
+              <button type="button" class="icon-btn" id="regen-inv" aria-label="Reset invoice number to match the reservation" title="Match reservation number">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16.5 10a6.5 6.5 0 1 1-1.9-4.6M16.5 3.5v3.5H13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="row two">
+            <div>
+              <label for="invDate">Invoice date</label>
+              <input id="invDate" name="invDate" type="date">
+            </div>
+            <div>
+              <label for="dueDate">Due date</label>
+              <input id="dueDate" name="dueDate" type="date">
+            </div>
+          </div>
+        </div>
+
+        <h3 class="subgroup-title">Extra charges</h3>
+        <div id="extras" class="stack"></div>
+        <button type="button" class="btn-add" id="add-extra">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Add charge
+        </button>
+        <datalist id="extra-types">
+          <option value="Breakfast">
+          <option value="Dinner">
+          <option value="Airport transfer">
+          <option value="Extra bed">
+          <option value="Laundry">
+          <option value="Restaurant &amp; bar">
+        </datalist>
+
+        <h3 class="subgroup-title">Payment</h3>
+        <div class="card">
+          <div class="row two">
+            <div>
+              <label for="amountPaid">Amount paid</label>
+              <input id="amountPaid" name="amountPaid" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0">
+            </div>
+            <div>
+              <label for="payMethod">Paid by</label>
+              <select id="payMethod" name="payMethod">
+                <option value="">—</option>
+                <option>Cash</option>
+                <option>Mobile Money</option>
+                <option>Bank transfer</option>
+                <option>Card</option>
+                <option>Booking platform</option>
+              </select>
+            </div>
+          </div>
+          <div class="totals" id="totals" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- Send to -->
+      <section class="group" aria-labelledby="h-contact">
+        <h2 id="h-contact" class="group-title">Send to</h2>
+        <div class="card">
+          <div class="row">
+            <label for="guestPhone">WhatsApp number</label>
+            <input id="guestPhone" name="guestPhone" type="tel" inputmode="tel" placeholder="+256 7XX XXX XXX">
+          </div>
+          <div class="row">
+            <label for="guestEmail">Email</label>
+            <input id="guestEmail" name="guestEmail" type="email" inputmode="email" placeholder="guest@example.com">
+          </div>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <details class="group settings">
+        <summary class="group-title">Document settings</summary>
+        <div class="card">
+          <div class="row two">
+            <div>
+              <label for="signer">Signed by</label>
+              <input id="signer" name="signer">
+            </div>
+            <div>
+              <label for="signerTitle">Title</label>
+              <input id="signerTitle" name="signerTitle">
+            </div>
+          </div>
+          <div class="row">
+            <label for="currency">Currency</label>
+            <select id="currency" name="currency">
+              <option value="USD">US Dollar ($)</option>
+              <option value="UGX">Uganda Shilling (UGX)</option>
+              <option value="EUR">Euro (€)</option>
+            </select>
+          </div>
+          <div class="row">
+            <label for="payDetails">Payment details on invoices</label>
+            <textarea id="payDetails" name="payDetails" rows="3" placeholder="e.g. Bank, account name and number, Mobile Money number"></textarea>
+          </div>
+          <label class="check">
+            <input type="checkbox" id="useSignature" checked>
+            <span>Add signature</span>
+          </label>
+          <p class="hint">Saved on this device only.</p>
+        </div>
+      </details>
+    </form>
+
+    <aside class="preview" aria-label="PDF preview">
+      <div class="paper">
+        <iframe id="preview-frame" title="Document preview"></iframe>
+        <div class="paper-empty" id="preview-empty">Fill in the booking to see the document.</div>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="actionbar">
+    <div class="actionbar-inner">
+      <div class="doc-label" id="doc-label" aria-live="polite"></div>
+      <div class="actions">
+        <button type="button" class="btn btn-secondary only-mobile" id="btn-preview">Preview</button>
+        <button type="button" class="btn btn-secondary" id="btn-download" aria-label="Download PDF">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0-4-4m4 4 4-4M4 16h12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Download</span>
+        </button>
+        <button type="button" class="btn btn-whatsapp" id="btn-whatsapp" aria-label="Send via WhatsApp">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.2Z"/></svg>
+          <span>WhatsApp</span>
+        </button>
+        <button type="button" class="btn btn-primary" id="btn-email" aria-label="Send via email">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5.5h14v9H3zM3.5 6l6.5 5 6.5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span>Email</span>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <dialog id="recent-dialog" class="sheet" aria-labelledby="recent-title">
+    <div class="sheet-head">
+      <h2 id="recent-title">Recent documents</h2>
+      <button type="button" class="btn-plain" id="recent-close">Done</button>
+    </div>
+    <ul id="recent-list" class="recent-list"></ul>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="vendor/jspdf.umd.min.js"></script>
+  <script src="vendor/jspdf.plugin.autotable.min.js"></script>
+  <script src="pdf.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
